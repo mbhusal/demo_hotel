@@ -46,6 +46,8 @@ class UserController extends Controller
 
         }
 
+        // dd($dates);
+
         return $dates;
 
     }
@@ -53,40 +55,60 @@ class UserController extends Controller
     public function bookedrooms(BookingRequest $request)
     {
 
+         // $request_date = $request->arrival;
+         // dd($request_date);
+         // $booked_rooms = Booked_room::where('status',0)->pluck('deprt');
+         // dd($request->all());
+//
       $room = Room::where('id', $request->room_id)->first();
 
+//       foreach ($book as $p) {
 
-      $book = Booked_room::where('id', 1)->first();
+//         $frY = $p->arrival->format('Y');
 
+//         $frm = $p->arrival->format('m');
 
-      $frY = $book->arrival->format('Y');
+//         $frd = $p->arrival->format('d');
 
-      $frm = $book->arrival->format('m');
-
-      $frd = $book->arrival->format('d');
-
-      $from = Carbon::createFromDate($frY, $frm, $frd);
+//         $from = Carbon::createFromDate($frY, $frm, $frd);
 
 
+//         $toY = $p->deprt->format('Y');
+
+//         $tom = $p->deprt->format('m');
+
+//         $tod = $p->deprt->format('d');
+
+//         $to = Carbon::createFromDate($toY, $tom, $tod);
+
+//         $dates[] = $this->generateDateRange($from, $to); 
+
+//         $date[]=  array_merge($date , $dates);
+
+//       }
+
+//       $result = [];
+//       foreach($date as $d)
+//       {
+//         $result[] = $d;
+//       }
 
 
-      $toY = $book->deprt->format('Y');
-
-      $tom = $book->deprt->format('m');
-
-      $tod = $book->deprt->format('d');
-
-      $to = Carbon::createFromDate($toY, $tom, $tod);
-
-      
-      // $demo = $book->arrival->format('Y , m , d');
-      // dd($demo , $from);
 
 
-      $dates = $this->generateDateRange($from, $to);
-    // dd($dates);
 
 
+
+//       for ($i = 0; $i < count($dates); $i++) {
+//         if($i = 0){
+//            $d= $dates[$i];
+//         }else{
+//           $data[]=array_merge($dates[$i], $d);
+//         }
+//       }
+
+
+// dd($data);
 
       if($room->bedno < $request->nos){
         return redirect()->back()->withErrors(['Numbers of people exceed the no of beds, so please check other rooms or book this room for few of you and book other room for other. ']);
@@ -102,14 +124,14 @@ class UserController extends Controller
            $booking->contactno = $request->contactno;
            $booking->email = $request->email;
 
-          //  $ourrooms = Room::find($request->room_id);
-          // $ourrooms->status = 'Booked';
-
-          // $ourrooms->save();
-          $booking->save();
+           $ourrooms = Room::find($request->room_id);
+          $ourrooms->status = 'Booked';
+// dd('fmds');
+          $ourrooms->save();
+            $booking->save();
 
           return redirect()->route('home');
 
 
-    }
+ }
 }
